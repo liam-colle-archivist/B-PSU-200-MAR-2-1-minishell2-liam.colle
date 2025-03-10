@@ -1,0 +1,23 @@
+name: Minishell2 CD/CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: self-hosted
+    container:
+      image: epitechcontent/epitest-docker
+
+    steps:
+    - uses: actions/checkout@v4
+   
+    - name: make
+      run: make
+      
+    - name: make check
+      run: echo "echo Hello world!" | ./mysh
