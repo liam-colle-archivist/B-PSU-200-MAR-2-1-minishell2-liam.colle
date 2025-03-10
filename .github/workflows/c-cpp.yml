@@ -16,8 +16,32 @@ jobs:
     steps:
     - uses: actions/checkout@v4
    
-    - name: make
+    - name: Make Minishell2
       run: make
       
-    - name: make check
+    - name: Check if image exists
       run: echo "echo Hello world!" | ./mysh
+
+  tests:
+    timeout-minutes: 2
+    runs-on: self-hosted
+    container:
+      image: epitechcontent/epitest-docker
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Run tests
+      run: make tests_run
+
+  clean:
+    timeout-minutes: 2
+    runs-on: self-hosted
+    container:
+      image: epitechcontent/epitest-docker
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Clean workspace
+      run: make fclean
