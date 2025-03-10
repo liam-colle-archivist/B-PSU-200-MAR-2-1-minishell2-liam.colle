@@ -238,7 +238,7 @@ NAME="Error Handling - Permissions denied"
 SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
 CLEAN=""
 TESTS=
-  echo './example_files/perm_err/my_divzero'
+  echo './my_divzero_permfault'
 [8.1-END]
 
 [8.2]
@@ -246,7 +246,7 @@ NAME="Error Handling - Wrong executable"
 SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
 CLEAN=""
 TESTS=
-  echo './example_files/perm_err/my_divzeroe'
+  echo './my_divzero_permfault'
 [8.2-END]
 
 [8.3.1.1]
