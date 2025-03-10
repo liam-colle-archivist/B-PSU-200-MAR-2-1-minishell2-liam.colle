@@ -1,0 +1,28 @@
+name: Minishell2 CD/CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    timeout-minutes: 1
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Make Minishell2
+      run: make
+
+    - name: Check if mysh runs
+      run: echo "echo Hello world!" | ./my_sh
+
+    - name: Run Unit Tests
+      run: make tests_run
+
+    - name: Clean Minishell2
+      run: make fclean
