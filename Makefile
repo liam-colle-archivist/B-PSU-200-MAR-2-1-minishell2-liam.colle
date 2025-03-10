@@ -78,7 +78,8 @@ clean:
 fclean: clean
 	@for fld in $(LIBSRC) ; do $(MAKE) fclean -C $$fld \
 		--no-print-directory ; done
-	@cd ./tests/shell_tester/; $(MAKE) fclean
+	@cd ./tests/shell_tester/; $(MAKE) fclean\
+		PWD='$(PWD)/tests/shell_tester' --no-print-directory
 	@$(RM) $(NAME)
 	@$(RM) $(NAME)-noflags
 	@$(RM) $(DEBUG)
