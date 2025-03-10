@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-
+    timeout-minutes: 10
     runs-on: self-hosted
     container:
       image: epitechcontent/epitest-docker
@@ -23,7 +23,7 @@ jobs:
       run: echo "echo Hello world!" | ./mysh
 
   tests:
-    timeout-minutes: 2
+    timeout-minutes: 10
     runs-on: self-hosted
     container:
       image: epitechcontent/epitest-docker
@@ -35,7 +35,7 @@ jobs:
       run: make tests_run
 
   clean:
-    timeout-minutes: 2
+    timeout-minutes: 10
     runs-on: self-hosted
     container:
       image: epitechcontent/epitest-docker
@@ -43,5 +43,29 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
+    - name: Make workspace
+      run: make
+
     - name: Clean workspace
       run: make fclean
+
+    - name: Check if workspace has been cleaned
+      run: echo "Make an sh script for that"
+
+  style:
+    timeout-minutes: 10
+    runs-on: self-hosted
+    container:
+      image: epitechcontent/epitest-docker
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Make workspace
+      run: make
+
+    - name: Make style
+      run: make fclean
+
+    - name: Check for coding style warnings
+      run: echo "Make an sh script for that"
