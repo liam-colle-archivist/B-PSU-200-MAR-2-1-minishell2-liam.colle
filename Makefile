@@ -104,5 +104,6 @@ tests_run: unit_tests
 
 unit_tests: re
 	@cp $(NAME) ./tests/shell_tester/
-	@$(MAKE) all -C ./tests/shell_tester/ --no-print-directory
+	@$(MAKE) all -C ./tests/shell_tester/ PWD='$(PWD)/tests/shell_tester'\
+		--no-print-directory
 	@$(CC) $(TSRC) -o $(TNAME) $(TCFLGS) $(CFLGS) -I./include
