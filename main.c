@@ -19,7 +19,7 @@ int main(int argc, char **argv, char **env)
 
     free_arg_chain(start_args);
     if (shell_data == NULL) {
-        my_putstr_fd("mysh (PANIC): Cannot create shell_data, panicing!.\n",
+        my_putstr_fd("mysh (PANIC): Cannot create shell_data, panicing!.\n",    
             STDERR);
         return EXIT_FAILURE_84;
     }
