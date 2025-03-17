@@ -1,10 +1,14 @@
-name: Minishell2 CD/CI
+name: Epitech Classic CD/CI
 
 on:
   push:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
+
+env:
+  PROJECT_NAME: Minishell1
+  PROJECT_FILE: mysh
 
 jobs:
   build:
@@ -16,11 +20,11 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: Make Minishell2
+    - name: Make Project
       run: make
 
     - name: Check if image exists
-      run: echo "echo Hello world!" | ./mysh
+      run: ./tests/action_utils/exists.sh ./${PROJECT_FILE}
 
   tests:
     timeout-minutes: 10
@@ -50,7 +54,7 @@ jobs:
       run: make fclean
 
     - name: Check if workspace has been cleaned
-      run: echo "Make an sh script for that"
+      run: ./tests/action_utils/n_exists.sh ./${PROJECT_FILE}
 
   style:
     timeout-minutes: 10
