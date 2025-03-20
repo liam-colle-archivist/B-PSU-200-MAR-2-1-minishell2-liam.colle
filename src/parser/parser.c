@@ -59,7 +59,8 @@ static char *get_shard(char *line, char **last_stop)
 
 static bool_t is_supported_pipe(const char *shard)
 {
-    const char *supported_pipes[] = {"&&", NULL};
+    const char *supported_pipes[] = {";", ">", ">>", "<",
+        "<<", "|", "||", NULL};
 
     if (shard == NULL)
         return FALSE;
