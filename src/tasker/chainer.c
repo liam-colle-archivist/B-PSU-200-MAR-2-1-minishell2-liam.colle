@@ -27,14 +27,14 @@ sh_tasker_t *sh_tasker_create(shell_data_t *shell_data, sh_prsent_t *args)
     new_chain->program = my_strdup(sh_get_prsent_index(args, 0));
     new_chain->args = sh_prsent_to_char_tab(args);
     new_chain->parser_entry = args;
-    new_chain->stdin_fd = STDIN;
-    new_chain->stdout_fd = STDOUT;
-    new_chain->stderr_fd = STDERR;
+    new_chain->pipes = (sh_tasker_redirect_t) {SH_TPIPE_UNKNOWN,
+        SH_EXEC_STRICT, STDIN, NULL, STDOUT, NULL, STDERR, NULL};
     new_chain->exec_fnc = sh_exec_program;
     new_chain->shell_data = shell_data;
     if (new_chain->type == SH_TASKER_BUILTIN)
         new_chain->exec_fnc = sh_get_builtin_exec(args);
     new_chain->next = NULL;
+    new_chain->prev = NULL;
     return new_chain;
 }
 
@@ -51,6 +51,7 @@ int sh_tasker_chain(sh_tasker_t **start, sh_tasker_t *chain)
     curr_chain = *start;
     for (; curr_chain->next != NULL; curr_chain = curr_chain->next);
     curr_chain->next = chain;
+    chain->prev = curr_chain;
     return FUNC_SUCCESS;
 }
 

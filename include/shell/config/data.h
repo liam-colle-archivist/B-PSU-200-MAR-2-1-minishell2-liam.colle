@@ -48,7 +48,21 @@ typedef struct {
 } shell_data_t;
 
     #define SH_DATA_DEFAULT NULL, NULL, NULL, -1, TRUE
-    #define SH_DATA_DEFAULT_EC -1
+    #define SH_DATA_DEFAULT_EC 0
+    #define SH_LSTEXC(shell_data)   (shell_data->last_excode)
+    #define SH_EXEC_CCNT(shell_data)    (SH_LSTEXC(shell_data) == 0)
+
+#endif
+
+#ifndef SH_PIPES_H
+    #define SH_PIPES_H
+
+typedef enum {
+    SH_TPIPE_UNKNOWN = -1,
+    SH_TPIPE_REDIR,
+    SH_TPIPE_REDIR_APPEND,
+    SH_TPIPE_BRIDGE,
+} sh_tasker_pipe_type_t;
 
 #endif
 
@@ -61,17 +75,33 @@ typedef enum {
     SH_TASKER_BUILTIN,
 } sh_tasker_type_t;
 
+typedef enum {
+    SH_EXEC_UNKNOWN = -1,
+    SH_EXEC_STRICT,
+    SH_EXEC_LAX,
+} sh_tasker_exec_type_t;
+
+typedef struct {
+    sh_tasker_pipe_type_t pipe_type;
+    sh_tasker_exec_type_t exec_type;
+    int stdin_fd;
+    char *stdin_fn;
+    int stdout_fd;
+    char *stdout_fn;
+    int stderr_fd;
+    char *stderr_fn;
+} sh_tasker_redirect_t;
+
 typedef struct sh_tasker_s {
     sh_tasker_type_t type;
     char *program;
     char **args;
     int (*exec_fnc)(shell_data_t *, struct sh_tasker_s *);
-    int stdin_fd;
-    int stdout_fd;
-    int stderr_fd;
+    sh_tasker_redirect_t pipes;
     shell_data_t *shell_data;
     sh_prsent_t *parser_entry;
     struct sh_tasker_s *next;
+    struct sh_tasker_s *prev;
 } sh_tasker_t;
 
 typedef struct {
@@ -82,5 +112,17 @@ typedef struct {
 } sh_tasker_pre_data_t;
 
     #define SH_TASKER_DEF_PREDAT  NULL, STDIN, STDERR, STDOUT
+    #define SH_STDIN_REX(rd_data) (rd_data->stdin_fn != NULL)
+    #define SH_STDIN_RFD(rd_data) (rd_data->stdin_fd)
+    #define SH_STDIN_RFN(rd_data) (rd_data->stdin_fn)
+    #define SH_STDOUT_REX(rd_data) (rd_data->stdout_fn != NULL)
+    #define SH_STDOUT_RFD(rd_data) (rd_data->stdout_fd)
+    #define SH_STDOUT_RFN(rd_data) (rd_data->stdout_fn)
+    #define SH_STDERR_REX(rd_data) (rd_data->stderr_fn != NULL)
+    #define SH_STDERR_RFD(rd_data) (rd_data->stderr_fd)
+    #define SH_STDERR_RFN(rd_data) (rd_data->stderr_fn)
+    #define SH_EXEC_MODE(task) (task->pipes.exec_type)
+    #define SH_EXEC_MSTRICT(rd_data) (SH_EXEC_MODE(rd_data) == SH_EXEC_STRICT)
+    #define SH_EXEC_MLAX(rd_data) (SH_EXEC_MODE(rd_data) == SH_EXEC_LAX)
 
 #endif

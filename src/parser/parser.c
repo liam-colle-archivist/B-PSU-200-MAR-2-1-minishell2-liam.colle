@@ -45,9 +45,13 @@ static char *get_shard(char *line, char **last_stop)
         return NULL;
     if (line[0] == '\0')
         return NULL;
+    if (line[0] == ';') {
+        *last_stop = &line[1];
+        return my_strdup(";");
+    }
     for (int i = 0; line[i] != '\0'; i++) {
-        if (line[i] == ' ' || line[i] == '\t') {
-            *last_stop = &line[i + 1];
+        if (line[i] == ' ' || line[i] == '\t' || line[i] == ';') {
+            *last_stop = line[i] != ';' ? &line[i + 1] : &line[i];
             return my_strptrdup(line, &line[i]);
         }
         if (line[i] == '"')
@@ -60,10 +64,12 @@ static char *get_shard(char *line, char **last_stop)
 static bool_t is_supported_pipe(const char *shard)
 {
     const char *supported_pipes[] = {";", ">", ">>", "<",
-        "<<", "|", "||", NULL};
+        "<<", "|", "||", "&&", NULL};
 
     if (shard == NULL)
         return FALSE;
+    if (shard[0] == '0' || shard[0] == '1' || shard[0] == '2')
+        return my_isin(&shard[1], supported_pipes);
     return my_isin(shard, supported_pipes);
 }
 

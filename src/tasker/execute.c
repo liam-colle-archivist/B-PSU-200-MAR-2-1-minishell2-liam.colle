@@ -75,6 +75,8 @@ int sh_tasker_execute(shell_data_t *shell_data)
         return FUNC_FAILED;
     curr_task = shell_data->tasks;
     for (; curr_task != NULL; curr_task = curr_task->next) {
+        if (!SH_EXEC_MLAX(curr_task) && !SH_EXEC_CCNT(shell_data))
+            return FUNC_FAILED;
         path_buffer = my_strdup(sh_env_get(shell_data->env, "PATH"));
         is_apart_of_path(path_buffer, curr_task);
         free(path_buffer);

@@ -11,5 +11,8 @@
     #define SH_EXEC_H
 
 int sh_exec_program(shell_data_t *shell_data, sh_tasker_t *task);
+int sh_exec_program_pipe(shell_data_t *shell_data, sh_tasker_t *task);
+void sh_exec_print_crash(int status);
+void sh_exec_print_execerror(char *program, int errcode);
 
 #endif

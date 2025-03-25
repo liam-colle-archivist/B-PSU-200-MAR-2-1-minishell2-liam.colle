@@ -40,6 +40,7 @@ int shell(shell_data_t *shell_data)
         return shell_tty_mode(shell_data);
     do {
         sh_render_window(shell_data);
+        shell_data->last_excode = SH_DATA_DEFAULT_EC;
         if (sh_parse_entry(shell_data) == FUNC_FAILED)
             shell_data->is_active = FALSE;
         sh_build_tasker(shell_data);
