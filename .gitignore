@@ -4,3 +4,4 @@ mysh
 my_divzero
 my_segfault
 unit_tests
+.vscode/settings.json
