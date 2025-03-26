@@ -10,6 +10,7 @@
 #include "shell/shell.h"
 #include "shell/parser.h"
 #include "shell/tasker.h"
+#include "shell/pipes.h"
 
 static void move_to_next_command(sh_prsent_t **parser_ent)
 {
@@ -19,11 +20,30 @@ static void move_to_next_command(sh_prsent_t **parser_ent)
         return;
     curr_ent = *parser_ent;
     for (; curr_ent != NULL; curr_ent = curr_ent->next)
-        if (curr_ent->type == SH_PARSER_PIPE) {
+        if (sh_parser_is_anypipe(curr_ent) == TRUE) {
             *parser_ent = curr_ent->next;
             return;
         }
     *parser_ent = NULL;
+}
+
+static int consume_pipe(sh_tasker_t *tasker, sh_prsent_t **parser_ent)
+{
+    sh_prsent_t *curr_ent = NULL;
+
+    if (tasker == NULL || parser_ent == NULL)
+        return FUNC_FAILED;
+    for (curr_ent = *parser_ent; curr_ent != NULL &&
+        sh_parser_is_spipe(curr_ent) == FALSE; curr_ent = curr_ent->next) {
+        if (curr_ent->type == SH_PARSER_COMMAND)
+            continue;
+        if (sh_pipes_interpret(tasker, curr_ent->entry, curr_ent->next
+            != NULL ? curr_ent->next->entry : NULL) == FUNC_FAILED)
+            return FUNC_FAILED;
+        *parser_ent = curr_ent->next != NULL ? curr_ent->next->next : NULL;
+        curr_ent = curr_ent->next != NULL ? curr_ent->next : curr_ent;
+        }
+    return FUNC_SUCCESS;
 }
 
 static int build_task(sh_tasker_t **tasker, sh_prsent_t **parser_ent,
@@ -38,6 +58,7 @@ static int build_task(sh_tasker_t **tasker, sh_prsent_t **parser_ent,
         return FUNC_FAILED;
     if (sh_tasker_chain(tasker, new_task) == FUNC_FAILED)
         return FUNC_FAILED;
+    consume_pipe(new_task, parser_ent);
     return FUNC_SUCCESS;
 }
 

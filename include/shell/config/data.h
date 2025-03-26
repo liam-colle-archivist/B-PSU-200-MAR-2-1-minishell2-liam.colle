@@ -12,8 +12,10 @@
 
 typedef enum {
     SH_PARSER_UNKNOWN = -1,
-    SH_PARSER_COMMAND,
-    SH_PARSER_PIPE
+    SH_PARSER_PIPE,
+    SH_PARSER_PROG_PIPE,
+    SH_PARSER_STOP_PIPE,
+    SH_PARSER_COMMAND
 } sh_prsent_type_t;
 
 typedef struct sh_prsent_s {
@@ -54,20 +56,28 @@ typedef struct {
 
 #endif
 
-#ifndef SH_PIPES_H
-    #define SH_PIPES_H
+#ifndef SH_PIPES_DATA_H
+    #define SH_PIPES_DATA_H
 
 typedef enum {
     SH_TPIPE_UNKNOWN = -1,
     SH_TPIPE_REDIR,
     SH_TPIPE_REDIR_APPEND,
+    SH_TPIPE_IREDIR,
+    SH_TPIPE_IREDIR_APPEND,
     SH_TPIPE_BRIDGE,
 } sh_tasker_pipe_type_t;
 
+typedef struct {
+    sh_prsent_type_t type;
+    char **symbol;
+    int (*tsk_interpret_f)(struct sh_tasker_s *, char *, char *);
+} sh_pipe_info_t;
+
 #endif
 
-#ifndef SH_TASKS_H
-    #define SH_TASKS_H
+#ifndef SH_TASKS_DATA_H
+    #define SH_TASKS_DATA_H
 
 typedef enum {
     SH_TASKER_UNKNOWN = -1,

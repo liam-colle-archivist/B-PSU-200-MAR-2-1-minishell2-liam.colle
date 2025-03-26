@@ -87,7 +87,7 @@ static int get_arguments(sh_prsent_t **chain, char *line)
         if (shard == NULL)
             return (*chain != NULL) ? FUNC_SUCCESS : FUNC_FAILED;
         if (is_supported_pipe(shard) == TRUE)
-            curr_chain = sh_prsent_create(shard, SH_PARSER_PIPE);
+            curr_chain = sh_prsent_create(shard, sh_get_pipe_type(shard));
         else
             curr_chain = sh_prsent_create(shard, SH_PARSER_COMMAND);
         if (sh_prsent_chain(chain, curr_chain) == FUNC_FAILED)

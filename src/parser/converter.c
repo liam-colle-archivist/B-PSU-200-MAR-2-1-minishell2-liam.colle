@@ -18,7 +18,7 @@ static char *convert_to_char_ptr(char *result, sh_prsent_t *chain)
     if (result == NULL || chain == NULL)
         return NULL;
     for (; chain != NULL; chain = chain->next) {
-        if (chain->type == SH_PARSER_PIPE)
+        if (sh_parser_is_anypipe(chain) == TRUE)
             return result;
         my_strcat(&result[index], chain->entry);
         index += my_strlen(chain->entry);
@@ -33,7 +33,7 @@ static char **convert_to_char_tab(char **result, sh_prsent_t *chain)
     if (result == NULL || chain == NULL)
         return NULL;
     for (; chain != NULL; chain = chain->next) {
-        if (chain->type == SH_PARSER_PIPE)
+        if (sh_parser_is_anypipe(chain) == TRUE)
             return result;
         if (my_strcmp(chain->entry, "") == CMP_EXACT)
             continue;

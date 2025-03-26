@@ -22,6 +22,9 @@ char *sh_get_entry(FILE *file);
 int sh_get_prsent_len(sh_prsent_t *chain);
 int sh_get_prsent_eltslen(sh_prsent_t *chain);
 char *sh_get_prsent_index(sh_prsent_t *chain, int index);
+sh_prsent_type_t sh_get_pipe_type(char *shard);
+bool_t sh_parser_is_anypipe(sh_prsent_t *entry);
+bool_t sh_parser_is_spipe(sh_prsent_t *entry);
 
 #endif
 
