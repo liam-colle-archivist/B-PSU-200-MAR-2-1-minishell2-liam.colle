@@ -28,7 +28,7 @@ sh_tasker_t *sh_tasker_create(shell_data_t *shell_data, sh_prsent_t *args)
     new_chain->args = sh_prsent_to_char_tab(args);
     new_chain->parser_entry = args;
     new_chain->pipes = (sh_tasker_redirect_t) {SH_TPIPE_UNKNOWN,
-        SH_EXEC_STRICT, STDIN, NULL, STDOUT, NULL, STDERR, NULL};
+        SH_EXEC_STRICT, -1, NULL, -1, NULL, -1, NULL};
     new_chain->exec_fnc = sh_exec_program;
     new_chain->shell_data = shell_data;
     if (new_chain->type == SH_TASKER_BUILTIN)

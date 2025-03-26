@@ -10,6 +10,7 @@
 #include "shell/shell.h"
 #include "shell/pipes.h"
 #include "shell/parser.h"
+#include "shell/exec.h"
 #include "utils.h"
 
 static int assign_output(sh_tasker_t *task, int fd, char *argument)
@@ -28,6 +29,7 @@ static int assign_output(sh_tasker_t *task, int fd, char *argument)
         task->pipes.stderr_fd = STDERR;
         task->pipes.stderr_fn = argument;
     }
+    task->exec_fnc = sh_exec_program_pipe;
     return FUNC_SUCCESS;
 }
 

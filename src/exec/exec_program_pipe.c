@@ -15,7 +15,6 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include "my.h"
-#include "kill.h"
 #include "shell/built_in.h"
 #include "shell/shell.h"
 #include "shell/env.h"
@@ -47,7 +46,7 @@ static int pipe_and_redirect(const char *filename, int fd, int fd_to_replace)
     if (fd_to_replace < 0)
         return FUNC_FAILED;
     if (filename != NULL) {
-        new_fd = open(filename, O_CREAT | O_WRONLY);
+        new_fd = open(filename, O_CREAT | O_WRONLY, 0644);
         if (new_fd < 0)
             return FUNC_FAILED;
         ret_stat = dup2(new_fd, fd_to_replace);
@@ -63,13 +62,13 @@ static int assign_pipes(sh_tasker_redirect_t *rd, int p_fd[2])
         return FUNC_FAILED;
     if (rd->stdin_fd != -1)
         return SH_STDIN_REX(rd) ? pipe_and_redirect(SH_STDIN_RFN(rd),
-        -1, STDOUT) : pipe_and_redirect(SH_STDIN_RFN(rd), p_fd[0], STDIN);
+        -1, STDIN) : pipe_and_redirect(SH_STDIN_RFN(rd), p_fd[0], STDIN);
     if (rd->stdout_fd != -1)
         return SH_STDOUT_REX(rd) ? pipe_and_redirect(SH_STDOUT_RFN(rd),
         -1, STDOUT) : pipe_and_redirect(SH_STDOUT_RFN(rd), p_fd[0], STDOUT);
     if (rd->stderr_fd != -1)
         return SH_STDERR_REX(rd) ? pipe_and_redirect(SH_STDERR_RFN(rd),
-        -1, STDOUT) : pipe_and_redirect(SH_STDERR_RFN(rd), p_fd[0], STDERR);
+        -1, STDERR) : pipe_and_redirect(SH_STDERR_RFN(rd), p_fd[0], STDERR);
     return FUNC_SUCCESS;
 }
 
