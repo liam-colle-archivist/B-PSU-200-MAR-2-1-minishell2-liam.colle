@@ -69,7 +69,7 @@ TESTS=
 
 [4]
 NAME="ENV: setenv and unsetenv"
-SETUP="/usr/bin/env > .lstenv ; while read varenv ; do unset $varenv ; done < <(/bin/cat .lstenv | /usr/bin/cut -f1 -d=) ; export PATH=/bin:/usr/bin ; export _=ls ; export LS_COLORS=RID ; export MYBG=4 ; export LVL=4 ; export NOTE=2"
+SETUP="/usr/bin/env > .lstenv ; while read varenv ; do unset $varenv ; done < <(/bin/cat .lstenv | /usr/bin/cut -f1 -d=) ; export PATH=/bin:/usr/bin ; export _=ls ; export LS_COLORS=RID ; export MYBG=4 ; export LVL=4 ; export NOTE=2; export NLSPATH=/usr/share/locale/%L/LC_MESSAGES/%N.cat:/usr/share/locale/%l/LC_MESSAGES/%N.cat"
 CLEAN="while read varenv ; do export "$varenv" 2>/dev/null ; done  < <(/bin/cat .lstenv) ; /bin/rm -f .lstenv"
 TESTS=
   echo 'unsetenv HOSTTYPE'
