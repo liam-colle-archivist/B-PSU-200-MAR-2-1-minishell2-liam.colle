@@ -86,6 +86,7 @@ TESTS=
   echo 'unsetenv _'
   echo 'unsetenv LS_COLORS'
   echo 'unsetenv NOTE'
+  echo 'unsetenv NLSPATH'
   echo 'setenv titi'
   echo 'setenv tata coucou'
   echo 'env'
@@ -409,6 +410,7 @@ TESTS=
   echo 'unsetenv _'
   echo 'unsetenv LS_COLORS'
   echo 'unsetenv NOTE'
+  echo 'unsetenv NLSPATH'
   echo 'setenv'
 [8.3.4.1-END]
 
@@ -431,8 +433,55 @@ TESTS=
   echo 'unsetenv _'
   echo 'unsetenv LS_COLORS'
   echo 'unsetenv NOTE'
+  echo 'unsetenv NLSPATH'
   echo 'setenv Hello World'
 [8.3.4.2-END]
+
+[8.3.4.3]
+NAME="ERROR HANDLING (Wrong builtin): (setenv Number first])"
+SETUP="/usr/bin/env > .lstenv ; while read varenv ; do unset $varenv ; done < <(/bin/cat .lstenv | /usr/bin/cut -f1 -d=) ; export PATH=/bin:/usr/bin ; export _=ls ; export LS_COLORS=RID ; export MYBG=4 ; export LVL=4 ; export NOTE=2"
+CLEAN="while read varenv ; do export "$varenv" 2>/dev/null ; done  < <(/bin/cat .lstenv) ; /bin/rm -f .lstenv"
+TESTS=
+  echo 'unsetenv HOSTTYPE'
+  echo 'unsetenv VENDOR'
+  echo 'unsetenv OSTYPE'
+  echo 'unsetenv MACHTYPE'
+  echo 'unsetenv SHLVL'
+  echo 'unsetenv PWD'
+  echo 'unsetenv LOGNAME'
+  echo 'unsetenv USER'
+  echo 'unsetenv GROUP'
+  echo 'unsetenv HOST'
+  echo 'unsetenv REMOTEHOST'
+  echo 'unsetenv _'
+  echo 'unsetenv LS_COLORS'
+  echo 'unsetenv NOTE'
+  echo 'unsetenv NLSPATH'
+  echo 'setenv 123ABC'
+[8.3.4.3-END]
+
+[8.3.4.4]
+NAME="ERROR HANDLING (Wrong builtin): (setenv Number after])"
+SETUP="/usr/bin/env > .lstenv ; while read varenv ; do unset $varenv ; done < <(/bin/cat .lstenv | /usr/bin/cut -f1 -d=) ; export PATH=/bin:/usr/bin ; export _=ls ; export LS_COLORS=RID ; export MYBG=4 ; export LVL=4 ; export NOTE=2"
+CLEAN="while read varenv ; do export "$varenv" 2>/dev/null ; done  < <(/bin/cat .lstenv) ; /bin/rm -f .lstenv"
+TESTS=
+  echo 'unsetenv HOSTTYPE'
+  echo 'unsetenv VENDOR'
+  echo 'unsetenv OSTYPE'
+  echo 'unsetenv MACHTYPE'
+  echo 'unsetenv SHLVL'
+  echo 'unsetenv PWD'
+  echo 'unsetenv LOGNAME'
+  echo 'unsetenv USER'
+  echo 'unsetenv GROUP'
+  echo 'unsetenv HOST'
+  echo 'unsetenv REMOTEHOST'
+  echo 'unsetenv _'
+  echo 'unsetenv LS_COLORS'
+  echo 'unsetenv NOTE'
+  echo 'unsetenv NLSPATH'
+  echo 'setenv ABC123-'
+[8.3.4.4-END]
 
 [9.1]
 NAME="EXIT: Exit"
