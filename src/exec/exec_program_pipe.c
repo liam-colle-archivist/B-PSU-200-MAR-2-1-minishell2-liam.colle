@@ -38,15 +38,19 @@ static int is_dad(shell_data_t *shell_data, pid_t child_pid)
     return sh_builtin_success(shell_data, WEXITSTATUS(status));
 }
 
-static int pipe_and_redirect(const char *filename, int fd, int fd_to_replace)
+static int pipe_and_redirect(const char *filename,
+    sh_tasker_pipe_type_t type, int fd, int fd_to_replace)
 {
     int new_fd = FUNC_FAILED;
     int ret_stat = FUNC_FAILED;
+    int flags = O_CREAT | O_WRONLY | O_TRUNC;
 
     if (fd_to_replace < 0)
         return FUNC_FAILED;
+    if (type == SH_TPIPE_REDIR_APPEND || type == SH_TPIPE_IREDIR_APPEND)
+        flags = O_CREAT | O_WRONLY | O_APPEND;
     if (filename != NULL) {
-        new_fd = open(filename, O_CREAT | O_WRONLY, 0644);
+        new_fd = open(filename, flags, 0644);
         if (new_fd < 0)
             return FUNC_FAILED;
         ret_stat = dup2(new_fd, fd_to_replace);
@@ -61,14 +65,17 @@ static int assign_pipes(sh_tasker_redirect_t *rd, int p_fd[2])
     if (rd == NULL || p_fd == NULL)
         return FUNC_FAILED;
     if (rd->stdin_fd != -1)
-        return SH_STDIN_REX(rd) ? pipe_and_redirect(SH_STDIN_RFN(rd),
-        -1, STDIN) : pipe_and_redirect(SH_STDIN_RFN(rd), p_fd[0], STDIN);
+        return SH_STDIN_REX(rd) ?
+        pipe_and_redirect(SH_STDIN_RFN(rd), rd->pipe_type, -1, STDIN) :
+        pipe_and_redirect(SH_STDIN_RFN(rd), rd->pipe_type, p_fd[0], STDIN);
     if (rd->stdout_fd != -1)
-        return SH_STDOUT_REX(rd) ? pipe_and_redirect(SH_STDOUT_RFN(rd),
-        -1, STDOUT) : pipe_and_redirect(SH_STDOUT_RFN(rd), p_fd[0], STDOUT);
+        return SH_STDOUT_REX(rd) ?
+        pipe_and_redirect(SH_STDOUT_RFN(rd), rd->pipe_type, -1, STDOUT) :
+        pipe_and_redirect(SH_STDOUT_RFN(rd), rd->pipe_type, p_fd[0], STDOUT);
     if (rd->stderr_fd != -1)
-        return SH_STDERR_REX(rd) ? pipe_and_redirect(SH_STDERR_RFN(rd),
-        -1, STDERR) : pipe_and_redirect(SH_STDERR_RFN(rd), p_fd[0], STDERR);
+        return SH_STDERR_REX(rd) ?
+        pipe_and_redirect(SH_STDERR_RFN(rd), rd->pipe_type, -1, STDERR) :
+        pipe_and_redirect(SH_STDERR_RFN(rd), rd->pipe_type, p_fd[0], STDERR);
     return FUNC_SUCCESS;
 }
 
@@ -76,12 +83,10 @@ static int is_child(sh_tasker_t *task, int pipe_fd[2])
 {
     char **env = NULL;
 
-    if (task == NULL || pipe_fd == NULL) {
+    if (task == NULL || pipe_fd == NULL)
         exit(EXIT_FAILURE);
-        return FUNC_FAILED;
-    }
     if (assign_pipes(&task->pipes, pipe_fd) == FUNC_FAILED)
-        return sh_vclose_ret(FUNC_FAILED, 2, pipe_fd[0], pipe_fd[1]);
+        exit(EXIT_FAILURE);
     sh_vclose(2, pipe_fd[0], pipe_fd[1]);
     if (task->shell_data != NULL)
         env = sh_env_to_tab(task->shell_data->env);
