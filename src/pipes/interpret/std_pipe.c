@@ -56,11 +56,11 @@ static int sh_tsk_check_negative_pipe(sh_tasker_t *task, char *shard,
         return FUNC_FAILED;
     if (my_strcmp("<", shard) == CMP_EXACT) {
         task->pipes.pipe_type = SH_TPIPE_IREDIR;
-        return assign_output(task, STDOUT, next_argument);
+        return assign_output(task, STDIN, next_argument);
     }
     if (my_strcmp("<<", shard) == CMP_EXACT) {
         task->pipes.pipe_type = SH_TPIPE_IREDIR_APPEND;
-        return assign_output(task, STDOUT, next_argument);
+        return assign_output(task, STDIN, next_argument);
     }
     return FUNC_FAILED;
 }

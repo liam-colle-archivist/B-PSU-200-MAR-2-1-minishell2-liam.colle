@@ -43,12 +43,14 @@ static int pipe_and_redirect(const char *filename,
 {
     int new_fd = FUNC_FAILED;
     int ret_stat = FUNC_FAILED;
-    int flags = O_CREAT | O_WRONLY | O_TRUNC;
+    int flags = O_CREAT | O_RDWR | O_TRUNC;
 
     if (fd_to_replace < 0)
         return FUNC_FAILED;
-    if (type == SH_TPIPE_REDIR_APPEND || type == SH_TPIPE_IREDIR_APPEND)
-        flags = O_CREAT | O_WRONLY | O_APPEND;
+    if (type == SH_TPIPE_REDIR_APPEND)
+        flags = O_CREAT | O_RDWR | O_APPEND;
+    if (type == SH_TPIPE_IREDIR || type == SH_TPIPE_IREDIR_APPEND)
+        flags = O_RDONLY;
     if (filename != NULL) {
         new_fd = open(filename, flags, 0644);
         if (new_fd < 0)
