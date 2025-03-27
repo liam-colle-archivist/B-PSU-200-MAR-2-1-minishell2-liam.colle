@@ -1,5 +1,5 @@
 [1]
-NAME="Nothing"
+NAME="SHELL INPUT: Nothing"
 SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
 CLEAN=""
 TESTS=
@@ -7,7 +7,7 @@ TESTS=
 [1-END]
 
 [2.1]
-NAME="Exec command"
+NAME="EXECUTION: Exec command"
 SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
 CLEAN=""
 TESTS=
@@ -15,7 +15,7 @@ TESTS=
 [2.1-END]
 
 [2.2]
-NAME="Exec two command"
+NAME="EXECUTION: Exec two command"
 SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
 CLEAN=""
 TESTS=
@@ -24,7 +24,7 @@ TESTS=
 [2.2-END]
 
 [2.3]
-NAME="Exec five commands"
+NAME="EXECUTION: Exec five commands"
 SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
 CLEAN=""
 TESTS=
@@ -36,7 +36,7 @@ TESTS=
 [2.3-END]
 
 [3.1]
-NAME="Testing with /usr/bin PATH"
+NAME="PATH HANDLING: Testing with /usr/bin PATH"
 SETUP="export TERM=xterm ; PATH='/usr/bin'"
 CLEAN=""
 TESTS=
@@ -44,7 +44,7 @@ TESTS=
 [3.1-END]
 
 [3.2]
-NAME="Testing with /bin PATH"
+NAME="PATH HANDLING: Testing with /bin PATH"
 SETUP="export TERM=xterm ; PATH='/bin'"
 CLEAN=""
 TESTS=
@@ -52,7 +52,7 @@ TESTS=
 [3.2-END]
 
 [3.3]
-NAME="Testing with wrong PATH"
+NAME="PATH HANDLING: Testing with wrong PATH"
 SETUP="export TERM=xterm ; PATH=''"
 CLEAN=""
 TESTS=
@@ -60,7 +60,7 @@ TESTS=
 [3.3-END]
 
 [3.4]
-NAME="Testing with wrong PATH 2"
+NAME="PATH HANDLING: Testing with wrong PATH 2"
 SETUP="export TERM=xterm ; PATH='/'"
 CLEAN=""
 TESTS=
@@ -68,8 +68,8 @@ TESTS=
 [3.4-END]
 
 [4]
-NAME="setenv and unsetenv"
-SETUP="/usr/bin/env > .lstenv ; while read varenv ; do unset $varenv ; done < <(/bin/cat .lstenv | /usr/bin/cut -f1 -d=) ; export PATH=/bin:/usr/bin ; export _=ls ; export LS_COLORS=RID ; export MYBG=4 ; export LVL=4 ; export NOTE=2"
+NAME="ENV: setenv and unsetenv"
+SETUP="/usr/bin/env > .lstenv ; while read varenv ; do unset $varenv ; done < <(/bin/cat .lstenv | /usr/bin/cut -f1 -d=) ; export PATH=/bin:/usr/bin ; export _=ls ; export LS_COLORS=RID ; export MYBG=4 ; export LVL=4 ; export NOTE=2; export NLSPATH=/usr/share/locale/%L/LC_MESSAGES/%N.cat:/usr/share/locale/%l/LC_MESSAGES/%N.cat"
 CLEAN="while read varenv ; do export "$varenv" 2>/dev/null ; done  < <(/bin/cat .lstenv) ; /bin/rm -f .lstenv"
 TESTS=
   echo 'unsetenv HOSTTYPE'
@@ -95,7 +95,7 @@ TESTS=
 [4-END]
 
 [5.1]
-NAME="builtin cd (Basic)"
+NAME="BUILTIN (CD): builtin cd (Basic)"
 SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
 CLEAN=""
 TESTS=
@@ -106,7 +106,7 @@ TESTS=
 [5.1-END]
 
 [5.2]
-NAME="builtin cd (Go OLDPWD)"
+NAME="BUILTIN (CD): builtin cd (Go OLDPWD)"
 SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
 CLEAN=""
 TESTS=
@@ -121,7 +121,7 @@ TESTS=
 [5.2-END]
 
 [5.3.1]
-NAME="builtin cd (Go OLDPWD [Advanced 1])"
+NAME="BUILTIN (CD): builtin cd (Go OLDPWD [Advanced 1])"
 SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
 CLEAN=""
 TESTS=
@@ -139,7 +139,7 @@ TESTS=
 [5.3.1-END]
 
 [5.3.2]
-NAME="builtin cd (Go OLDPWD [Advanced 2])"
+NAME="BUILTIN (CD): builtin cd (Go OLDPWD [Advanced 2])"
 SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
 CLEAN=""
 TESTS=
@@ -164,7 +164,7 @@ TESTS=
 [5.3.2-END]
 
 [5.4]
-NAME="builtin cd (Advanced)"
+NAME="BUILTIN (CD): builtin cd (Advanced)"
 SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
 CLEAN=""
 TESTS=
@@ -184,7 +184,7 @@ TESTS=
 [5.4-END]
 
 [5.5]
-NAME="builtin cd (Advanced Continued)"
+NAME="BUILTIN (CD): builtin cd (Advanced Continued)"
 SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
 CLEAN=""
 TESTS=
@@ -210,7 +210,7 @@ TESTS=
 [5.5-END]
 
 [6]
-NAME="many tab and space"
+NAME="ARGUMENT HANDLING: many tab and space"
 SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
 CLEAN=""
 TESTS=
@@ -218,7 +218,7 @@ TESTS=
 [6-END]
 
 [7.1]
-NAME="Launch DivZero program with core dump"
+NAME="CRASH HANDLING: Launch DivZero program with core dump"
 SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
 CLEAN=""
 TESTS=
@@ -226,7 +226,7 @@ TESTS=
 [7.1-END]
 
 [7.2]
-NAME="Launch Segfault program with core dump"
+NAME="CRASH HANDLING: Launch Segfault program with core dump"
 SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
 CLEAN=""
 TESTS=
@@ -234,7 +234,7 @@ TESTS=
 [7.2-END]
 
 [8.1]
-NAME="Error Handling - Permissions denied"
+NAME="ERROR HANDLING: Permissions denied"
 SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
 CLEAN=""
 TESTS=
@@ -242,7 +242,7 @@ TESTS=
 [8.1-END]
 
 [8.2]
-NAME="Error Handling - Wrong executable"
+NAME="ERROR HANDLING: Wrong executable"
 SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
 CLEAN=""
 TESTS=
@@ -250,7 +250,7 @@ TESTS=
 [8.2-END]
 
 [8.3.1.1]
-NAME="Error Handling - Wrong builtin (setenv [Too many])"
+NAME="ERROR HANDLING (Wrong builtin): (setenv [Too many])"
 SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
 CLEAN=""
 TESTS=
@@ -258,7 +258,7 @@ TESTS=
 [8.3.1.1-END]
 
 [8.3.1.2]
-NAME="Error Handling - Wrong builtin (setenv [Wrong keys])"
+NAME="ERROR HANDLING (Wrong builtin): (setenv [Wrong keys])"
 SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
 CLEAN=""
 TESTS=
@@ -279,7 +279,7 @@ TESTS=
 [8.3.1.2-END]
 
 [8.3.2.1]
-NAME="Error Handling - Wrong builtin (cd [Too few])"
+NAME="ERROR HANDLING (Wrong builtin): (cd [Too few])"
 SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'; HOME='/home/archivistencrypt'"
 CLEAN=""
 TESTS=
@@ -287,7 +287,7 @@ TESTS=
 [8.3.2.1-END]
 
 [8.3.2.2]
-NAME="Error Handling - Wrong builtin (cd [Too many])"
+NAME="ERROR HANDLING (Wrong builtin): (cd [Too many])"
 SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'; HOME='/home/archivistencrypt'"
 CLEAN=""
 TESTS=
@@ -295,7 +295,7 @@ TESTS=
 [8.3.2.2-END]
 
 [8.3.2.3]
-NAME="Error Handling - Wrong builtin (cd [Invalid path])"
+NAME="ERROR HANDLING (Wrong builtin): (cd [Invalid path])"
 SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'; HOME='/home/archivistencrypt'"
 CLEAN=""
 TESTS=
@@ -303,7 +303,7 @@ TESTS=
 [8.3.2.3-END]
 
 [8.3.2.4]
-NAME="Error Handling - Wrong builtin (cd [Trashed home])"
+NAME="ERROR HANDLING (Wrong builtin): (cd [Trashed home])"
 SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'; HOME=''"
 CLEAN=""
 TESTS=
@@ -311,7 +311,7 @@ TESTS=
 [8.3.2.4-END]
 
 [8.3.2.5]
-NAME="Error Handling - Wrong builtin (cd [Trashed ALL])"
+NAME="ERROR HANDLING (Wrong builtin): (cd [Trashed ALL])"
 SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'; HOME=''; OLDPWD=''; PWD=''"
 CLEAN=""
 TESTS=
@@ -319,7 +319,7 @@ TESTS=
 [8.3.2.5-END]
 
 [8.3.2.6.1]
-NAME="Error Handling - Wrong builtin (cd [Segfault risk])"
+NAME="ERROR HANDLING (Wrong builtin): (cd [Segfault risk])"
 SETUP="export TERM=xterm ; PATH='/bin:/usr/bin';"
 CLEAN=""
 TESTS=
@@ -332,7 +332,7 @@ TESTS=
 [8.3.2.6.1-END]
 
 [8.3.2.6.2]
-NAME="Error Handling - Wrong builtin (cd [Segfault risk 2])"
+NAME="ERROR HANDLING (Wrong builtin): (cd [Segfault risk 2])"
 SETUP="export TERM=xterm ; PATH='/bin:/usr/bin';"
 CLEAN=""
 TESTS=
@@ -346,7 +346,7 @@ TESTS=
 [8.3.2.6.2-END]
 
 [8.3.2.6.3]
-NAME="Error Handling - Wrong builtin (cd [Segfault risk 3])"
+NAME="ERROR HANDLING (Wrong builtin): (cd [Segfault risk 3])"
 SETUP="export TERM=xterm ; PATH='/bin:/usr/bin';"
 CLEAN=""
 TESTS=
@@ -360,7 +360,7 @@ TESTS=
 [8.3.2.6.3-END]
 
 [8.3.2.6.4]
-NAME="Error Handling - Wrong builtin (cd [Segfault risk 4])"
+NAME="ERROR HANDLING (Wrong builtin): (cd [Segfault risk 4])"
 SETUP="export TERM=xterm ; PATH='/bin:/usr/bin';"
 CLEAN=""
 TESTS=
@@ -375,7 +375,7 @@ TESTS=
 [8.3.2.6.4-END]
 
 [8.3.3.1]
-NAME="Error Handling - Wrong builtin (unsetenv [Too few])"
+NAME="ERROR HANDLING (Wrong builtin): (unsetenv [Too few])"
 SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
 CLEAN=""
 TESTS=
@@ -383,7 +383,7 @@ TESTS=
 [8.3.3.1-END]
 
 [8.3.3.2]
-NAME="Error Handling - Wrong builtin (unsetenv [Too many])"
+NAME="ERROR HANDLING (Wrong builtin): (unsetenv [Too many])"
 SETUP="export TERM=xterm; PATH='/bin:/usr/bin'"
 CLEAN=""
 TESTS=
@@ -391,7 +391,7 @@ TESTS=
 [8.3.3.2-END]
 
 [9.1]
-NAME="Exit"
+NAME="EXIT: Exit"
 SETUP="export TERM=xterm; PATH='/bin:/usr/bin'"
 CLEAN=""
 TESTS=
@@ -399,15 +399,44 @@ TESTS=
 [9.1-END]
 
 [9.2]
-NAME="Exit with code"
+NAME="EXIT: Exit with code"
 SETUP="export TERM=xterm; PATH='/bin:/usr/bin'"
 CLEAN=""
 TESTS=
   echo 'exit 84'
 [9.2-END]
 
+[10.1.1]
+NAME="PIPE: Simple redirection pipe '>'"
+SETUP="export TERM=xterm; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo 'echo "hello world" > out_test'
+  echo 'cat out_test'
+[10.1.1-END]
+
+[10.1.2]
+NAME="PIPE: Simple redirection pipe '>>'"
+SETUP="export TERM=xterm; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo 'echo "hello world" > out_test'
+  echo 'echo "pipes are annoying" >> out_test'
+  echo 'cat out_test'
+[10.1.2-END]
+
+[10.2.1]
+NAME="PIPE: Simple redirection pipe '<'"
+SETUP="export TERM=xterm; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo 'echo "hello world" > out_test'
+  echo 'echo "pipes are annoying" >> out_test'
+  echo 'cat < out_test'
+[10.2.1-END]
+
 [Official_1]
-NAME="(Official) Nothing"
+NAME="OFFICIAL: Nothing"
 SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
 CLEAN=""
 TESTS=
@@ -415,7 +444,7 @@ TESTS=
 [Official_1-END]
 
 [Official_2]
-NAME="(Official) Simple exec"
+NAME="OFFICIAL: Simple exec"
 SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
 CLEAN=""
 TESTS=
@@ -423,7 +452,7 @@ TESTS=
 [Official_2-END]
 
 [Official_3]
-NAME="(Official) Run simple commands"
+NAME="OFFICIAL: Run simple commands"
 SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
 CLEAN=""
 TESTS=
@@ -435,7 +464,7 @@ TESTS=
 [Official_3-END]
 
 [Official_4]
-NAME="(Official) Wrong simple command"
+NAME="OFFICIAL: Wrong simple command"
 SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
 CLEAN=""
 TESTS=
@@ -443,7 +472,7 @@ TESTS=
 [Official_4-END]
 
 [Official_5.1]
-NAME="(Official) Line formatting (space and tabs) 1"
+NAME="OFFICIAL: Line formatting (space and tabs) 1"
 SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
 CLEAN=""
 TESTS=
@@ -451,7 +480,7 @@ TESTS=
 [Official_5.1-END]
 
 [Official_5.2]
-NAME="(Official) Line formatting (space and tabs) 2"
+NAME="OFFICIAL: Line formatting (space and tabs) 2"
 SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
 CLEAN=""
 TESTS=

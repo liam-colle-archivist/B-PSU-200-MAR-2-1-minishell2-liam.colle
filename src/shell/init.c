@@ -28,6 +28,8 @@ shell_data_t *init_shell_conf(char **env, sh_st_options_t *options)
     if (env == NULL)
         return NULL;
     env_dict = sh_env_load(env);
+    sh_env_set(env_dict, "NLSPATH", my_strdup("/usr/share/locale/%L/"
+        "LC_MESSAGES/%N.cat:/usr/share/locale/%l/LC_MESSAGES/%N.cat"));
     shell_data = sh_data_init(env_dict);
     if (options != NULL)
         if (configure_options(shell_data, options) == FUNC_FAILED)
