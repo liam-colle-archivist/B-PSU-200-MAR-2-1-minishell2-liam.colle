@@ -407,7 +407,7 @@ TESTS=
 [9.2-END]
 
 [10.1.1]
-NAME="PIPE: Simple redirection pipe '>'"
+NAME="REDIRECTION: Simple redirection '>'"
 SETUP="export TERM=xterm; PATH='/bin:/usr/bin'"
 CLEAN=""
 TESTS=
@@ -416,7 +416,7 @@ TESTS=
 [10.1.1-END]
 
 [10.1.2]
-NAME="PIPE: Simple redirection pipe '>>'"
+NAME="REDIRECTION: Simple redirection '>>'"
 SETUP="export TERM=xterm; PATH='/bin:/usr/bin'"
 CLEAN=""
 TESTS=
@@ -426,7 +426,7 @@ TESTS=
 [10.1.2-END]
 
 [10.2.1]
-NAME="PIPE: Simple redirection pipe '<'"
+NAME="REDIRECTION: Simple redirection '<'"
 SETUP="export TERM=xterm; PATH='/bin:/usr/bin'"
 CLEAN=""
 TESTS=
@@ -434,6 +434,38 @@ TESTS=
   echo 'echo "pipes are annoying" >> out_test'
   echo 'cat < out_test'
 [10.2.1-END]
+
+[11.1.1]
+NAME="PIPE: Simple pipe '|' n°1"
+SETUP="export TERM=xterm; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo 'echo "hello world" | cat'
+[11.1.1-END]
+
+[11.1.2]
+NAME="PIPE: Simple pipe '|' n°2"
+SETUP="export TERM=xterm; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo 'echo "hello world" | cut -c 2-4'
+[11.1.2-END]
+
+[11.2.1]
+NAME="PIPE: Multiple pipes '|' n°1"
+SETUP="export TERM=xterm; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo 'echo "hello world" | cut -c 2-4 | cut -c 3'
+[11.2.1-END]
+
+[11.2.2]
+NAME="PIPE: Multiple pipes '|' n°2"
+SETUP="export TERM=xterm; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo 'echo "hello world" | cut -c 2- | cut -c 3-6 | cut -c 5'
+[11.2.2-END]
 
 [Official_1]
 NAME="OFFICIAL: Nothing"
