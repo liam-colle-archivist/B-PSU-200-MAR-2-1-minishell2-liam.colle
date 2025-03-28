@@ -31,7 +31,7 @@ void sh_exec_print_crash(int status)
     my_putstr_fd("\n", STDERR);
 }
 
-void sh_exec_print_execerror(char *program, int errcode)
+void sh_exec_print_execerror(const char *program, int errcode)
 {
     my_putstr_fd(program, STDERR);
     if (errcode == ENOENT) {
@@ -41,4 +41,15 @@ void sh_exec_print_execerror(char *program, int errcode)
     my_putstr_fd(": ", STDERR);
     my_putstr_fd(strerror(errcode), STDERR);
     my_putstr_fd(".\n", STDERR);
+}
+
+int sh_exec_check_access(const char *program)
+{
+    if (program == NULL)
+        return FUNC_FAILED;
+    if (access(program, X_OK) == FUNC_FAILED) {
+        sh_exec_print_execerror(program, errno);
+        return FUNC_FAILED;
+    }
+    return FUNC_SUCCESS;
 }
