@@ -18,7 +18,6 @@ all:
 	@echo === FAILED TESTS ===
 	@grep --color=never "KO" test_results; true
 	@echo === END OF LOG ===
-# @grep -q "KO" test_results && exit 1 || true
 
 fclean:
 	@$(RM) $(NAME)
