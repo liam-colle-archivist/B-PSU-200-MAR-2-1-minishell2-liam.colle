@@ -110,6 +110,7 @@ typedef struct sh_tasker_s {
     sh_tasker_redirect_t pipes;
     shell_data_t *shell_data;
     sh_prsent_t *parser_entry;
+    struct sh_tasker_s *prog_pipes;
     struct sh_tasker_s *next;
     struct sh_tasker_s *prev;
 } sh_tasker_t;
@@ -122,6 +123,7 @@ typedef struct {
 } sh_tasker_pre_data_t;
 
     #define SH_TASKER_DEF_PREDAT  NULL, STDIN, STDERR, STDOUT
+    #define SH_TSKPIPE_DEF SH_TPIPE_UNKNOWN, 0, -1, NULL, -1, NULL, -1, NULL
     #define SH_STDIN_REX(rd_data) (rd_data->stdin_fn != NULL)
     #define SH_STDIN_RFD(rd_data) (rd_data->stdin_fd)
     #define SH_STDIN_RFN(rd_data) (rd_data->stdin_fn)

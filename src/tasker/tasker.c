@@ -10,6 +10,7 @@
 #include "shell/shell.h"
 #include "shell/parser.h"
 #include "shell/tasker.h"
+#include "shell/exec.h"
 #include "shell/pipes.h"
 
 static void move_to_next_command(sh_prsent_t **parser_ent)
@@ -27,11 +28,34 @@ static void move_to_next_command(sh_prsent_t **parser_ent)
     *parser_ent = NULL;
 }
 
+static int consume_p_pipe(sh_tasker_t *tasker, sh_prsent_t **parser_ent)
+{
+    sh_prsent_t *curr_ent = NULL;
+    sh_tasker_t *new_task = NULL;
+
+    if (tasker == NULL || parser_ent == NULL)
+        return FUNC_FAILED;
+    for (curr_ent = *parser_ent; curr_ent != NULL &&
+        sh_parser_is_spipe(curr_ent) == FALSE; curr_ent = curr_ent->next) {
+        if (curr_ent->type != SH_PARSER_PROG_PIPE)
+            continue;
+        new_task = sh_tasker_create(tasker->shell_data, curr_ent->next);
+        if (new_task == NULL)
+            return FUNC_FAILED;
+        new_task->exec_fnc = sh_exec_program_ppipe;
+        tasker->exec_fnc = sh_exec_program_ppipe;
+        sh_tasker_chain_ppipe(&tasker->prog_pipes, new_task);
+    }
+    return FUNC_SUCCESS;
+}
+
 static int consume_pipe(sh_tasker_t *tasker, sh_prsent_t **parser_ent)
 {
     sh_prsent_t *curr_ent = NULL;
 
     if (tasker == NULL || parser_ent == NULL)
+        return FUNC_FAILED;
+    if (consume_p_pipe(tasker, parser_ent) == FUNC_FAILED)
         return FUNC_FAILED;
     for (curr_ent = *parser_ent; curr_ent != NULL &&
         sh_parser_is_spipe(curr_ent) == FALSE; curr_ent = curr_ent->next) {
