@@ -27,8 +27,8 @@ sh_tasker_t *sh_tasker_create(shell_data_t *shell_data, sh_prsent_t *args)
     new_chain->program = my_strdup(sh_get_prsent_index(args, 0));
     new_chain->args = sh_prsent_to_char_tab(args);
     new_chain->parser_entry = args;
-    new_chain->pipes = (sh_tasker_redirect_t) {SH_TPIPE_UNKNOWN,
-        SH_EXEC_STRICT, -1, NULL, -1, NULL, -1, NULL};
+    new_chain->pipes = (sh_tasker_redirect_t) {SH_TSKPIPE_DEF};
+    new_chain->prog_pipes = NULL;
     new_chain->exec_fnc = sh_exec_program;
     new_chain->shell_data = shell_data;
     if (new_chain->type == SH_TASKER_BUILTIN)
@@ -55,12 +55,31 @@ int sh_tasker_chain(sh_tasker_t **start, sh_tasker_t *chain)
     return FUNC_SUCCESS;
 }
 
+int sh_tasker_chain_ppipe(sh_tasker_t **start, sh_tasker_t *chain)
+{
+    sh_tasker_t *curr_chain = NULL;
+
+    if (start == NULL || chain == NULL)
+        return FUNC_FAILED;
+    if (*start == NULL) {
+        *start = chain;
+        return FUNC_SUCCESS;
+    }
+    curr_chain = *start;
+    for (; curr_chain->prog_pipes != NULL;
+        curr_chain = curr_chain->prog_pipes);
+    curr_chain->prog_pipes = chain;
+    chain->prev = curr_chain;
+    return FUNC_SUCCESS;
+}
+
 void sh_tasker_free(sh_tasker_t *chain)
 {
     if (chain == NULL)
         return;
     free(chain->program);
     my_tabfree((void *) chain->args);
+    sh_tasker_free(chain->prog_pipes);
     free(chain);
 }
 

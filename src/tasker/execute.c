@@ -45,7 +45,7 @@ static int replace_arguments(char *new_arg, sh_tasker_t *task)
     return FUNC_SUCCESS;
 }
 
-static int is_apart_of_path(char *path, sh_tasker_t *task)
+int sh_is_apart_of_path(char *path, sh_tasker_t *task)
 {
     char *path_shard = NULL;
     char *buffer = NULL;
@@ -78,7 +78,7 @@ int sh_tasker_execute(shell_data_t *shell_data)
         if (!SH_EXEC_MLAX(curr_task) && !SH_EXEC_CCNT(shell_data))
             return FUNC_FAILED;
         path_buffer = my_strdup(sh_env_get(shell_data->env, "PATH"));
-        is_apart_of_path(path_buffer, curr_task);
+        sh_is_apart_of_path(path_buffer, curr_task);
         free(path_buffer);
         if (curr_task->exec_fnc == NULL)
             return FUNC_FAILED;
