@@ -483,6 +483,54 @@ TESTS=
   echo 'setenv ABC123-'
 [8.3.4.4-END]
 
+[8.4.1]
+NAME="ERROR HANDLING (PIPE): ('|' command invalid right)"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin';"
+CLEAN=""
+TESTS=
+  echo "echo 'hello' | cate"
+[8.4.1-END]
+
+[8.4.2]
+NAME="ERROR HANDLING (PIPE): ('|' command invalid left)"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin';"
+CLEAN=""
+TESTS=
+  echo "echa 'hello' | cat"
+[8.4.2-END]
+
+[8.4.3]
+NAME="ERROR HANDLING (PIPE): ('|' command invalid both)"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin';"
+CLEAN=""
+TESTS=
+  echo "eche 'hello' | cate"
+[8.4.3-END]
+
+[8.4.4]
+NAME="ERROR HANDLING (PIPE): ('|' command invalid three)"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin';"
+CLEAN=""
+TESTS=
+  echo "eche 'hello' | cate | cute"
+[8.4.4-END]
+
+[8.4.5]
+NAME="ERROR HANDLING (PIPE): ('|' command valid two invalid one middle)"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin';"
+CLEAN=""
+TESTS=
+  echo "echo 'hello' | cate | head -n 1"
+[8.4.5-END]
+
+[8.4.6]
+NAME="ERROR HANDLING (PIPE): ('|' command failing in middle)"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin';"
+CLEAN=""
+TESTS=
+  echo "echo 'hello' | grep a | head -n 1"
+[8.4.6-END]
+
 [9.1]
 NAME="EXIT: Exit"
 SETUP="export TERM=xterm; PATH='/bin:/usr/bin'"
@@ -559,6 +607,14 @@ CLEAN=""
 TESTS=
   echo 'echo "hello world" | cut -c 2- | cut -c 3-6 | cut -c 5'
 [11.2.2-END]
+
+[11.2.3]
+NAME="PIPE: Multiple pipes '|' n°3"
+SETUP="export TERM=xterm; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo 'echo "hello world" | cut -c 2- | cut -c 3-6 | cut -c 5-6 | tail | cut -c 5'
+[11.2.3-END]
 
 [Official_1]
 NAME="OFFICIAL: Nothing"
