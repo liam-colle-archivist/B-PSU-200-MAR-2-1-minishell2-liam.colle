@@ -40,14 +40,6 @@ static int is_dad(shell_data_t *shell_data, pid_t child_pid)
     return sh_builtin_success(shell_data, WEXITSTATUS(status));
 }
 
-static int pipe_and_redirect(const char *filename,
-    sh_tasker_pipe_type_t type, int fd, int fd_to_replace)
-{
-    if (fd_to_replace < 0)
-        return FUNC_FAILED;
-    return dup2(fd, fd_to_replace);
-}
-
 static int assign_pipes(int **pipesfd, int iter)
 {
     if (pipesfd == NULL || iter < 0)
@@ -116,7 +108,6 @@ static int create_children(sh_tasker_t *task, int **pipesfd)
 
 int sh_exec_program_ppipe(shell_data_t *shell_data, sh_tasker_t *task)
 {
-    int fork_result = 0;
     int **pipefd = NULL;
 
     if (shell_data == NULL || task == NULL)
