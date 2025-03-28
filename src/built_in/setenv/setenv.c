@@ -44,9 +44,11 @@ int sh_builtin_setenv(shell_data_t *shell_data, sh_tasker_t *task)
 
     if (shell_data == NULL || task == NULL)
         return sh_builtin_fail(shell_data, EXIT_FAILURE);
+    if (sh_get_prsent_len(task->parser_entry) == 1)
+        return sh_builtin_env_bypass(shell_data, task);
     if (verify_validity(task) == FALSE)
         return sh_builtin_fail(shell_data, EXIT_FAILURE);
-    key = my_strdup(sh_get_prsent_index(task->parser_entry, 1));
+    key = sh_get_prsent_index(task->parser_entry, 1);
     value = my_strdup(sh_get_prsent_index(task->parser_entry, 2));
     if (key == NULL) {
         if (sh_env_print(shell_data->env) == FUNC_FAILED)
