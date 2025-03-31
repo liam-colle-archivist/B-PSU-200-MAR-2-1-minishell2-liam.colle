@@ -60,13 +60,16 @@ static int assign_pipes(int **pipesfd, int iter)
 static int check_commands(sh_tasker_t *task)
 {
     int status = FUNC_SUCCESS;
+    char *path_str = NULL;
 
     if (task == NULL)
         return FUNC_FAILED;
     for (; task != NULL; task = task->prog_pipes) {
-        if (sh_is_apart_of_path(sh_env_get(task->shell_data->env, "PATH"),
+        path_str = my_strdup(sh_env_get(task->shell_data->env, "PATH"));
+        if (sh_is_apart_of_path(path_str,
             task) == FUNC_SEMFAIL)
             status = FUNC_FAILED;
+        free(path_str);
         if (sh_exec_check_access(task->program) == FUNC_FAILED)
             status = FUNC_FAILED;
     }
