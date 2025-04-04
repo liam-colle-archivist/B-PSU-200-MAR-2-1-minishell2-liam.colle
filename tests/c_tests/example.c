@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2025
 ** example
 ** File description:
-** minishell1
+** minishell2
 */
 
 #include "my.h"

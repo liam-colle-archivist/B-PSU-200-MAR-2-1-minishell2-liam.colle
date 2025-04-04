@@ -7,7 +7,7 @@ on:
     branches: [ "main" ]
 
 env:
-  PROJECT_NAME: Minishell1
+  PROJECT_NAME: Minishell2
   PROJECT_FILE: mysh
 
 jobs:

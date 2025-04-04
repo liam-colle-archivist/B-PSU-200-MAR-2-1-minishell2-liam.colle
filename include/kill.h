@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2025
 ** kill
 ** File description:
-** minishell1
+** minishell2
 */
 
 #include <sys/types.h>

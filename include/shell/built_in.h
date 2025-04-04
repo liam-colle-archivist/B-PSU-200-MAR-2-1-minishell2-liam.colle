@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2025
 ** builtin
 ** File description:
-** minishell1
+** minishell2
 */
 #include "shell.h"
 #include "config/data.h"

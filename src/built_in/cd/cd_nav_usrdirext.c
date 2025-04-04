@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2025
 ** cd_nav_usrdirext
 ** File description:
-** minishell1
+** minishell2
 */
 
 #include <stdio.h>

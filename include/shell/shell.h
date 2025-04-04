@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2025
 ** shell (Header)
 ** File description:
-** minishell1
+** minishell2
 */
 
 #include <unistd.h>

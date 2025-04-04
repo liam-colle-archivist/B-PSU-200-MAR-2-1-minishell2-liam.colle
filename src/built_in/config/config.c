@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2025
 ** config
 ** File description:
-** minishell1
+** minishell2
 */
 
 #include <stdlib.h>

@@ -2,7 +2,7 @@
 ## EPITECH PROJECT, 2025
 ## Makefile
 ## File description:
-## minishell1 (Shell Tester)
+## minishell2 (Shell Tester)
 ##
 
 NAME = mysh
