@@ -28,6 +28,8 @@ typedef struct {
     #define SH_BLTN_SETENV "setenv", sh_builtin_setenv
     #define SH_BLTN_UNSETENV "unsetenv", sh_builtin_unsetenv
 
+extern sh_builtin_conf_t sh_builtins[];
+
 // Deprecated. Causes 'unknown' instructions
 sh_builtin_conf_t **sh_return_builtin_fptr(void);
 

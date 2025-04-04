@@ -14,18 +14,16 @@
 static int execbltin(shell_data_t *shell_data)
 {
     char *entry = NULL;
-    sh_builtin_conf_t config[] = {{SH_BLTN_CLS}, {SH_BLTN_EXIT}, {SH_BLTN_CD},
-        {SH_BLTN_ENV}, {SH_BLTN_SETENV}, {SH_BLTN_UNSETENV}, {SH_BLTN_RETURN},
-        {SH_BLTN_BLANK}};
 
     if (shell_data == NULL)
         return FUNC_FAILED;
     if (shell_data->command_chain == NULL)
         return FUNC_FAILED;
     entry = shell_data->command_chain->entry;
-    for (int i = 0; config[i].command != NULL; i++) {
-        if (my_strcmp(entry, config[i].command) == CMP_EXACT)
-            return config[i].builtin_f(shell_data, NULL);
+    for (int i = 0; sh_builtins[i].command != NULL; i++) {
+        if (my_strcmp(entry, sh_builtins[i].command) == CMP_EXACT
+            && sh_builtins[i].builtin_f != NULL)
+            return sh_builtins[i].builtin_f(shell_data, NULL);
     }
     return FUNC_SUCCESS;
 }
@@ -43,18 +41,14 @@ int (*sh_get_builtin_exec(sh_prsent_t *parser_entry))(shell_data_t *,
     sh_tasker_t *)
 {
     char *entry = NULL;
-    sh_builtin_conf_t config[] = {{SH_BLTN_CLS}, {SH_BLTN_EXIT}, {SH_BLTN_CD},
-        {SH_BLTN_ENV}, {SH_BLTN_SETENV}, {SH_BLTN_UNSETENV}, {SH_BLTN_RETURN},
-        {SH_BLTN_BLANK}};
 
     if (parser_entry == NULL)
         return NULL;
     if (parser_entry->entry == NULL)
         return NULL;
     entry = parser_entry->entry;
-    for (int i = 0; config[i].command != NULL; i++) {
-        if (my_strcmp(entry, config[i].command) == CMP_EXACT)
-            return config[i].builtin_f;
-    }
+    for (int i = 0; sh_builtins[i].command != NULL; i++)
+        if (my_strcmp(entry, sh_builtins[i].command) == CMP_EXACT)
+            return sh_builtins[i].builtin_f;
     return NULL;
 }
