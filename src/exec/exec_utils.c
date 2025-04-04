@@ -27,7 +27,7 @@ void sh_exec_print_crash(int status)
     else
         my_putstr_fd(strsignal(WTERMSIG(status)), STDERR);
     if (WCOREDUMP(status) != 0)
-            my_putstr_fd(" (core dumped)", STDERR);
+        my_putstr_fd(" (core dumped)", STDERR);
     my_putstr_fd("\n", STDERR);
 }
 
