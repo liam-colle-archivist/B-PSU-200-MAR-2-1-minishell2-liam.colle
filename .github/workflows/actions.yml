@@ -1,0 +1,78 @@
+name: Epitech Classic CD/CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+env:
+  PROJECT_NAME: Minishell2
+  PROJECT_FILE: mysh
+
+jobs:
+  build:
+    timeout-minutes: 10
+    runs-on: self-hosted
+    container:
+      image: epitechcontent/epitest-docker
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Make Project
+      run: make
+
+    - name: Check if image exists
+      run: ./tests/action_utils/exists.sh ./${PROJECT_FILE}
+
+  tests:
+    timeout-minutes: 10
+    runs-on: self-hosted
+    container:
+      image: epitechcontent/epitest-docker
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Run tests
+      run: make tests_run
+
+  clean:
+    timeout-minutes: 10
+    runs-on: self-hosted
+    container:
+      image: epitechcontent/epitest-docker
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Make workspace
+      run: make
+
+    - name: Clean workspace
+      run: make fclean
+
+    - name: Check if workspace has been cleaned
+      run: ./tests/action_utils/n_exists.sh ./${PROJECT_FILE}
+
+  style:
+    timeout-minutes: 10
+    runs-on: self-hosted
+    container:
+      image: ghcr.io/epitech/coding-style-checker:latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Make workspace
+      run: make
+
+    - name: Make style
+      run: make fclean
+
+    - name: Check for coding style warnings
+      run: check.sh $(pwd) $(pwd)
+
+    - name: Check for coding style warnings2
+      run: ./tests/action_utils/cs_check.sh

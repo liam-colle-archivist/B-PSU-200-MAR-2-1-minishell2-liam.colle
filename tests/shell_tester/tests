@@ -1,0 +1,669 @@
+[1]
+NAME="SHELL INPUT: Nothing"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo ''
+[1-END]
+
+[2.1]
+NAME="EXECUTION: Exec command"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo 'ls /etc'
+[2.1-END]
+
+[2.2]
+NAME="EXECUTION: Exec two command"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo 'ls /etc'
+  echo 'cat /etc/resolv.conf'
+[2.2-END]
+
+[2.3]
+NAME="EXECUTION: Exec five commands"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo 'cat /etc/resolv.conf'
+  sleep 0.5
+  echo 'ls -l /etc'
+  sleep 0.5
+  echo 'pwd'
+[2.3-END]
+
+[3.1]
+NAME="PATH HANDLING: Testing with /usr/bin PATH"
+SETUP="export TERM=xterm ; PATH='/usr/bin'"
+CLEAN=""
+TESTS=
+  echo 'pwd'
+[3.1-END]
+
+[3.2]
+NAME="PATH HANDLING: Testing with /bin PATH"
+SETUP="export TERM=xterm ; PATH='/bin'"
+CLEAN=""
+TESTS=
+  echo 'pwd'
+[3.2-END]
+
+[3.3]
+NAME="PATH HANDLING: Testing with wrong PATH"
+SETUP="export TERM=xterm ; PATH=''"
+CLEAN=""
+TESTS=
+  echo 'pwd'
+[3.3-END]
+
+[3.4]
+NAME="PATH HANDLING: Testing with wrong PATH 2"
+SETUP="export TERM=xterm ; PATH='/'"
+CLEAN=""
+TESTS=
+  echo 'pwd'
+[3.4-END]
+
+[4]
+NAME="ENV: setenv and unsetenv"
+SETUP="/usr/bin/env > .lstenv ; while read varenv ; do unset $varenv ; done < <(/bin/cat .lstenv | /usr/bin/cut -f1 -d=) ; export PATH=/bin:/usr/bin ; export _=ls ; export LS_COLORS=RID ; export MYBG=4 ; export LVL=4 ; export NOTE=2"
+CLEAN="while read varenv ; do export "$varenv" 2>/dev/null ; done  < <(/bin/cat .lstenv) ; /bin/rm -f .lstenv"
+TESTS=
+  echo 'unsetenv HOSTTYPE'
+  echo 'unsetenv VENDOR'
+  echo 'unsetenv OSTYPE'
+  echo 'unsetenv MACHTYPE'
+  echo 'unsetenv SHLVL'
+  echo 'unsetenv PWD'
+  echo 'unsetenv LOGNAME'
+  echo 'unsetenv USER'
+  echo 'unsetenv GROUP'
+  echo 'unsetenv HOST'
+  echo 'unsetenv REMOTEHOST'
+  echo 'unsetenv _'
+  echo 'unsetenv LS_COLORS'
+  echo 'unsetenv NOTE'
+  echo 'unsetenv NLSPATH'
+  echo 'setenv titi'
+  echo 'setenv tata coucou'
+  echo 'env'
+  echo '/usr/bin/env'
+  echo 'setenv var1 val1'
+  echo 'setenv var2 val2'
+[4-END]
+
+[5.1]
+NAME="BUILTIN (CD): builtin cd (Basic)"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo 'cd ..'
+  echo 'ls -l'
+  echo 'cd /usr'
+  echo 'ls -l'
+[5.1-END]
+
+[5.2]
+NAME="BUILTIN (CD): builtin cd (Go OLDPWD)"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo 'cd ..'
+  echo 'pwd'
+  echo 'cd /usr'
+  echo 'pwd'
+  echo 'cd -'
+  echo 'pwd'
+  echo 'cd -'
+  echo 'pwd'
+[5.2-END]
+
+[5.3.1]
+NAME="BUILTIN (CD): builtin cd (Go OLDPWD [Advanced 1])"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo 'cd ..'
+  echo 'pwd'
+  echo 'cd /usr'
+  echo 'pwd'
+  echo 'cd -'
+  echo 'pwd'
+  echo 'cd -'
+  echo 'pwd'
+  unsetenv OLDPWD
+  echo 'cd -'
+  echo 'pwd'
+[5.3.1-END]
+
+[5.3.2]
+NAME="BUILTIN (CD): builtin cd (Go OLDPWD [Advanced 2])"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  unsetenv PWD
+  unsetenv OLDPWD
+  echo 'cd ..'
+  echo 'pwd'
+  unsetenv PWD
+  unsetenv OLDPWD
+  echo 'cd /usr'
+  echo 'pwd'
+  unsetenv PWD
+  unsetenv OLDPWD
+  echo 'cd -'
+  echo 'pwd'
+  unsetenv PWD
+  unsetenv OLDPWD
+  echo 'cd -'
+  echo 'pwd'
+  echo 'cd -'
+  echo 'pwd'
+[5.3.2-END]
+
+[5.4]
+NAME="BUILTIN (CD): builtin cd (Advanced)"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  unsetenv PWD
+  unsetenv OLDPWD
+  echo 'pwd'
+  echo 'cd ..'
+  echo 'pwd'
+  echo 'cd /usr'
+  echo 'pwd'
+  echo 'cd -'
+  echo 'pwd'
+  echo 'cd -'
+  echo 'pwd'
+  echo 'cd -'
+  echo 'pwd'
+[5.4-END]
+
+[5.5]
+NAME="BUILTIN (CD): builtin cd (Advanced Continued)"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  unsetenv PWD
+  unsetenv OLDPWD
+  echo 'pwd'
+  echo 'cd ..'
+  echo 'pwd'
+  echo 'cd /usr'
+  echo 'pwd'
+  echo 'cd -'
+  echo 'pwd'
+  echo 'cd -'
+  echo 'pwd'
+  echo 'cd -'
+  echo 'pwd'
+  echo 'cd -'
+  echo 'pwd'
+  echo 'cd ..'
+  echo 'pwd'
+  echo 'cd /usr'
+  echo 'pwd'
+[5.5-END]
+
+[6]
+NAME="ARGUMENT HANDLING: many tab and space"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo -e "\t\t    ls\t     \t-l    \t\t  \t -a /usr   \t\t"
+[6-END]
+
+[7.1]
+NAME="CRASH HANDLING: Launch DivZero program with core dump"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo "./my_divzero"
+[7.1-END]
+
+[7.2]
+NAME="CRASH HANDLING: Launch Segfault program with core dump"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo "./my_segfault"
+[7.2-END]
+
+[8.1]
+NAME="ERROR HANDLING: Permissions denied"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo './my_divzero_permfault'
+[8.1-END]
+
+[8.2]
+NAME="ERROR HANDLING: Wrong executable"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo './my_divzero_permfault'
+[8.2-END]
+
+[8.3.1.1]
+NAME="ERROR HANDLING (Wrong builtin): (setenv [Too many])"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo 'setenv Hello World General'
+[8.3.1.1-END]
+
+[8.3.1.2]
+NAME="ERROR HANDLING (Wrong builtin): (setenv [Wrong keys])"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo 'setenv 42SH'
+  echo 'setenv SH42-'
+  echo 'setenv SH450$*ùù:2+7/'
+  echo 'setenv SH42'
+  echo 'setenv SH42_SH'
+  echo 'setenv I am 42SH'
+  echo 'setenv 42SH'
+  echo 'setenv SH42-2'
+  echo 'setenv SH450$*ùù:2+7/2'
+  echo 'setenv SH42'
+  echo 'setenv SH42_SH'
+  echo 'setenv "I am 42SH2"'
+  echo 'env'
+
+[8.3.1.2-END]
+
+[8.3.2.1]
+NAME="ERROR HANDLING (Wrong builtin): (cd [Too few])"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'; HOME='/home/archivistencrypt'"
+CLEAN=""
+TESTS=
+  echo 'cd'
+[8.3.2.1-END]
+
+[8.3.2.2]
+NAME="ERROR HANDLING (Wrong builtin): (cd [Too many])"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'; HOME='/home/archivistencrypt'"
+CLEAN=""
+TESTS=
+  echo 'cd ../ ../'
+[8.3.2.2-END]
+
+[8.3.2.3]
+NAME="ERROR HANDLING (Wrong builtin): (cd [Invalid path])"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'; HOME='/home/archivistencrypt'"
+CLEAN=""
+TESTS=
+  echo 'cd /enoent'
+[8.3.2.3-END]
+
+[8.3.2.4]
+NAME="ERROR HANDLING (Wrong builtin): (cd [Trashed home])"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'; HOME=''"
+CLEAN=""
+TESTS=
+  echo 'cd ~'
+[8.3.2.4-END]
+
+[8.3.2.5]
+NAME="ERROR HANDLING (Wrong builtin): (cd [Trashed ALL])"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'; HOME=''; OLDPWD=''; PWD=''"
+CLEAN=""
+TESTS=
+  echo 'cd -'
+[8.3.2.5-END]
+
+[8.3.2.6.1]
+NAME="ERROR HANDLING (Wrong builtin): (cd [Segfault risk])"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin';"
+CLEAN=""
+TESTS=
+  echo 'cd ../'
+  echo 'cd /usr/bin'
+  echo 'cd -'
+  echo 'ls -l'
+  echo 'cd ..'
+  echo 'ls'
+[8.3.2.6.1-END]
+
+[8.3.2.6.2]
+NAME="ERROR HANDLING (Wrong builtin): (cd [Segfault risk 2])"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin';"
+CLEAN=""
+TESTS=
+  echo 'unsetenv OLDPWD'
+  echo 'cd ../'
+  echo 'cd /usr/bin'
+  echo 'cd -'
+  echo 'ls -l'
+  echo 'cd ..'
+  echo 'ls'
+[8.3.2.6.2-END]
+
+[8.3.2.6.3]
+NAME="ERROR HANDLING (Wrong builtin): (cd [Segfault risk 3])"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin';"
+CLEAN=""
+TESTS=
+  echo 'unsetenv PWD'
+  echo 'cd ../'
+  echo 'cd /usr/bin'
+  echo 'cd -'
+  echo 'ls -l'
+  echo 'cd ..'
+  echo 'ls'
+[8.3.2.6.3-END]
+
+[8.3.2.6.4]
+NAME="ERROR HANDLING (Wrong builtin): (cd [Segfault risk 4])"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin';"
+CLEAN=""
+TESTS=
+  echo 'unsetenv PWD'
+  echo 'unsetenv OLDPWD'
+  echo 'cd ../'
+  echo 'cd /usr/bin'
+  echo 'cd -'
+  echo 'ls -l'
+  echo 'cd ..'
+  echo 'ls'
+[8.3.2.6.4-END]
+
+[8.3.3.1]
+NAME="ERROR HANDLING (Wrong builtin): (unsetenv [Too few])"
+SETUP="/usr/bin/env > .lstenv ; while read varenv ; do unset $varenv ; done < <(/bin/cat .lstenv | /usr/bin/cut -f1 -d=) ; export PATH=/bin:/usr/bin ; export _=ls ; export LS_COLORS=RID ; export MYBG=4 ; export LVL=4 ; export NOTE=2"
+CLEAN="while read varenv ; do export "$varenv" 2>/dev/null ; done  < <(/bin/cat .lstenv) ; /bin/rm -f .lstenv"
+TESTS=
+  echo 'unsetenv'
+[8.3.3.1-END]
+
+[8.3.3.2]
+NAME="ERROR HANDLING (Wrong builtin): (unsetenv [Too many])"
+SETUP="/usr/bin/env > .lstenv ; while read varenv ; do unset $varenv ; done < <(/bin/cat .lstenv | /usr/bin/cut -f1 -d=) ; export PATH=/bin:/usr/bin ; export _=ls ; export LS_COLORS=RID ; export MYBG=4 ; export LVL=4 ; export NOTE=2"
+CLEAN="while read varenv ; do export "$varenv" 2>/dev/null ; done  < <(/bin/cat .lstenv) ; /bin/rm -f .lstenv"
+TESTS=
+  echo 'unsetenv Hello World'
+[8.3.3.2-END]
+
+[8.3.4.1]
+NAME="ERROR HANDLING (Wrong builtin): (setenv [Too few])"
+SETUP="/usr/bin/env > .lstenv ; while read varenv ; do unset $varenv ; done < <(/bin/cat .lstenv | /usr/bin/cut -f1 -d=) ; export PATH=/bin:/usr/bin ; export _=ls ; export LS_COLORS=RID ; export MYBG=4 ; export LVL=4 ; export NOTE=2"
+CLEAN="while read varenv ; do export "$varenv" 2>/dev/null ; done  < <(/bin/cat .lstenv) ; /bin/rm -f .lstenv"
+TESTS=
+  echo 'unsetenv HOSTTYPE'
+  echo 'unsetenv VENDOR'
+  echo 'unsetenv OSTYPE'
+  echo 'unsetenv MACHTYPE'
+  echo 'unsetenv SHLVL'
+  echo 'unsetenv PWD'
+  echo 'unsetenv LOGNAME'
+  echo 'unsetenv USER'
+  echo 'unsetenv GROUP'
+  echo 'unsetenv HOST'
+  echo 'unsetenv REMOTEHOST'
+  echo 'unsetenv _'
+  echo 'unsetenv LS_COLORS'
+  echo 'unsetenv NOTE'
+  echo 'unsetenv NLSPATH'
+  echo 'setenv'
+[8.3.4.1-END]
+
+[8.3.4.2]
+NAME="ERROR HANDLING (Wrong builtin): (setenv [Too many])"
+SETUP="/usr/bin/env > .lstenv ; while read varenv ; do unset $varenv ; done < <(/bin/cat .lstenv | /usr/bin/cut -f1 -d=) ; export PATH=/bin:/usr/bin ; export _=ls ; export LS_COLORS=RID ; export MYBG=4 ; export LVL=4 ; export NOTE=2"
+CLEAN="while read varenv ; do export "$varenv" 2>/dev/null ; done  < <(/bin/cat .lstenv) ; /bin/rm -f .lstenv"
+TESTS=
+  echo 'unsetenv HOSTTYPE'
+  echo 'unsetenv VENDOR'
+  echo 'unsetenv OSTYPE'
+  echo 'unsetenv MACHTYPE'
+  echo 'unsetenv SHLVL'
+  echo 'unsetenv PWD'
+  echo 'unsetenv LOGNAME'
+  echo 'unsetenv USER'
+  echo 'unsetenv GROUP'
+  echo 'unsetenv HOST'
+  echo 'unsetenv REMOTEHOST'
+  echo 'unsetenv _'
+  echo 'unsetenv LS_COLORS'
+  echo 'unsetenv NOTE'
+  echo 'unsetenv NLSPATH'
+  echo 'setenv Hello World'
+[8.3.4.2-END]
+
+[8.3.4.3]
+NAME="ERROR HANDLING (Wrong builtin): (setenv Number first])"
+SETUP="/usr/bin/env > .lstenv ; while read varenv ; do unset $varenv ; done < <(/bin/cat .lstenv | /usr/bin/cut -f1 -d=) ; export PATH=/bin:/usr/bin ; export _=ls ; export LS_COLORS=RID ; export MYBG=4 ; export LVL=4 ; export NOTE=2"
+CLEAN="while read varenv ; do export "$varenv" 2>/dev/null ; done  < <(/bin/cat .lstenv) ; /bin/rm -f .lstenv"
+TESTS=
+  echo 'unsetenv HOSTTYPE'
+  echo 'unsetenv VENDOR'
+  echo 'unsetenv OSTYPE'
+  echo 'unsetenv MACHTYPE'
+  echo 'unsetenv SHLVL'
+  echo 'unsetenv PWD'
+  echo 'unsetenv LOGNAME'
+  echo 'unsetenv USER'
+  echo 'unsetenv GROUP'
+  echo 'unsetenv HOST'
+  echo 'unsetenv REMOTEHOST'
+  echo 'unsetenv _'
+  echo 'unsetenv LS_COLORS'
+  echo 'unsetenv NOTE'
+  echo 'unsetenv NLSPATH'
+  echo 'setenv 123ABC'
+[8.3.4.3-END]
+
+[8.3.4.4]
+NAME="ERROR HANDLING (Wrong builtin): (setenv Number after])"
+SETUP="/usr/bin/env > .lstenv ; while read varenv ; do unset $varenv ; done < <(/bin/cat .lstenv | /usr/bin/cut -f1 -d=) ; export PATH=/bin:/usr/bin ; export _=ls ; export LS_COLORS=RID ; export MYBG=4 ; export LVL=4 ; export NOTE=2"
+CLEAN="while read varenv ; do export "$varenv" 2>/dev/null ; done  < <(/bin/cat .lstenv) ; /bin/rm -f .lstenv"
+TESTS=
+  echo 'unsetenv HOSTTYPE'
+  echo 'unsetenv VENDOR'
+  echo 'unsetenv OSTYPE'
+  echo 'unsetenv MACHTYPE'
+  echo 'unsetenv SHLVL'
+  echo 'unsetenv PWD'
+  echo 'unsetenv LOGNAME'
+  echo 'unsetenv USER'
+  echo 'unsetenv GROUP'
+  echo 'unsetenv HOST'
+  echo 'unsetenv REMOTEHOST'
+  echo 'unsetenv _'
+  echo 'unsetenv LS_COLORS'
+  echo 'unsetenv NOTE'
+  echo 'unsetenv NLSPATH'
+  echo 'setenv ABC123-'
+[8.3.4.4-END]
+
+[8.4.1]
+NAME="ERROR HANDLING (PIPE): ('|' command invalid right)"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin';"
+CLEAN=""
+TESTS=
+  echo "echo 'hello' | cate"
+[8.4.1-END]
+
+[8.4.2]
+NAME="ERROR HANDLING (PIPE): ('|' command invalid left)"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin';"
+CLEAN=""
+TESTS=
+  echo "echa 'hello' | cat"
+[8.4.2-END]
+
+[8.4.3]
+NAME="ERROR HANDLING (PIPE): ('|' command invalid both)"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin';"
+CLEAN=""
+TESTS=
+  echo "eche 'hello' | cate"
+[8.4.3-END]
+
+[8.4.4]
+NAME="ERROR HANDLING (PIPE): ('|' command invalid three)"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin';"
+CLEAN=""
+TESTS=
+  echo "eche 'hello' | cate | cute"
+[8.4.4-END]
+
+[8.4.5]
+NAME="ERROR HANDLING (PIPE): ('|' command valid two invalid one middle)"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin';"
+CLEAN=""
+TESTS=
+  echo "echo 'hello' | cate | head -n 1"
+[8.4.5-END]
+
+[8.4.6]
+NAME="ERROR HANDLING (PIPE): ('|' command failing in middle)"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin';"
+CLEAN=""
+TESTS=
+  echo "echo 'hello' | grep a | head -n 1"
+[8.4.6-END]
+
+[9.1]
+NAME="EXIT: Exit"
+SETUP="export TERM=xterm; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo 'exit'
+[9.1-END]
+
+[9.2]
+NAME="EXIT: Exit with code"
+SETUP="export TERM=xterm; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo 'exit 84'
+[9.2-END]
+
+[10.1.1]
+NAME="REDIRECTION: Simple redirection '>'"
+SETUP="export TERM=xterm; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo 'echo "hello world" > out_test'
+  echo 'cat out_test'
+[10.1.1-END]
+
+[10.1.2]
+NAME="REDIRECTION: Simple redirection '>>'"
+SETUP="export TERM=xterm; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo 'echo "hello world" > out_test'
+  echo 'echo "pipes are annoying" >> out_test'
+  echo 'cat out_test'
+[10.1.2-END]
+
+[10.2.1]
+NAME="REDIRECTION: Simple redirection '<'"
+SETUP="export TERM=xterm; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo 'echo "hello world" > out_test'
+  echo 'echo "pipes are annoying" >> out_test'
+  echo 'cat < out_test'
+[10.2.1-END]
+
+[11.1.1]
+NAME="PIPE: Simple pipe '|' n°1"
+SETUP="export TERM=xterm; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo 'echo "hello world" | cat'
+[11.1.1-END]
+
+[11.1.2]
+NAME="PIPE: Simple pipe '|' n°2"
+SETUP="export TERM=xterm; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo 'echo "hello world" | cut -c 2-4'
+[11.1.2-END]
+
+[11.2.1]
+NAME="PIPE: Multiple pipes '|' n°1"
+SETUP="export TERM=xterm; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo 'echo "hello world" | cut -c 2-4 | cut -c 3'
+[11.2.1-END]
+
+[11.2.2]
+NAME="PIPE: Multiple pipes '|' n°2"
+SETUP="export TERM=xterm; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo 'echo "hello world" | cut -c 2- | cut -c 3-6 | cut -c 5'
+[11.2.2-END]
+
+[11.2.3]
+NAME="PIPE: Multiple pipes '|' n°3"
+SETUP="export TERM=xterm; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo 'echo "hello world" | cut -c 2- | cut -c 3-6 | cut -c 5-6 | tail | cut -c 5'
+[11.2.3-END]
+
+[Official_1]
+NAME="OFFICIAL: Nothing"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo ''
+[Official_1-END]
+
+[Official_2]
+NAME="OFFICIAL: Simple exec"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo 'id'
+[Official_2-END]
+
+[Official_3]
+NAME="OFFICIAL: Run simple commands"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo 'cat /etc/resolv.conf'
+  sleep 0.5
+  echo 'ls -l /etc'
+  sleep 0.5
+  echo 'pwd'
+[Official_3-END]
+
+[Official_4]
+NAME="OFFICIAL: Wrong simple command"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo 'exitt'
+[Official_4-END]
+
+[Official_5.1]
+NAME="OFFICIAL: Line formatting (space and tabs) 1"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo -e "\t\t    ls\t     \t-l    \t\t  \t -a /usr   \t\t"
+[Official_5.1-END]
+
+[Official_5.2]
+NAME="OFFICIAL: Line formatting (space and tabs) 2"
+SETUP="export TERM=xterm ; PATH='/bin:/usr/bin'"
+CLEAN=""
+TESTS=
+  echo -e "\t\t    echo\t     \t-l    \t\t hello \t -a world   \t\t"
+[Official_5.2-END]
